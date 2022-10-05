@@ -1,5 +1,6 @@
 import folium
 import pandas as pd
+import webbrowser
 
 """Creaciòn del grafo"""
 class Node:
@@ -8,6 +9,8 @@ class Node:
         self.connections: list[Node] = []
         self.weights: list[float] = []
         self.pos = 0
+        self.lat: float = 0
+        self.long: float = 0
 
     def __repr__(self) -> str:
         return self.data
@@ -87,17 +90,39 @@ class Grafo:
                 print(node, end=" -> ")
             print(node2)
 
+    def ListaRecorrido(self, start: str, finish: str):
+        node1 = self.listavertices[self.listaciudades.index(start)]
+        node2 = self.listavertices[self.listaciudades.index(finish)]
+        lista = [node1]
+        if node2 in node1.connections and self.MatrizRec[node1.pos][node2.pos] == node2:
+            lista.append(node2)
+        else:
+            aux = node2
+            path = []
+            while aux not in node1.connections:
+                aux = self.MatrizRec[node1.pos][aux.pos]
+                path.append(aux)
+            path.reverse()
+            for node in path:
+                lista.append(node)
+            lista.append(node2)
+
+        return lista
+
 
 grafo = Grafo()
 vuelos = pd.read_csv('data/totalvuelos.csv')
 """Iteramos a través del df y añadimos las ciudades al grafo"""
 c = 0
-for city in vuelos["Ciudad_Origen"]:
-    if city not in grafo.listaciudades:
-        grafo.listaciudades.append(city)
-        nodo = Node(city)
+for index, city in vuelos.iterrows():
+    ciudad = city["Ciudad_Origen"]
+    if ciudad not in grafo.listaciudades:
+        grafo.listaciudades.append(ciudad)
+        nodo = Node(ciudad)
         grafo.listavertices.append(nodo)
         nodo.pos = c
+        nodo.lat = float(city["lat_st"])
+        nodo.long = float(city["lng_st"])
         c += 1
 
 
@@ -115,15 +140,15 @@ for index, info in vuelos.iterrows():
 grafo.FloydWarshall()
 
 print("Camino minimo")
-grafo.PrintCamino("GUAPI", "ARMENIA")
+#grafo.PrintCamino("GUAPI", "ARMENIA")
 print()
-"""
-for vertice in grafo.listavertices:
-    print(vertice, end=" -> ")
-    for conexion in vertice.connections:
-        print(conexion, end=" ")
-    print()
-"""
+
+#for vertice in grafo.listavertices:
+    #print(vertice, end=" ")
+    #for conexion in vertice.connections:
+        #print(conexion, end=" ")
+    #print()
+
 
 """m = grafo.MatrizDistancia()
 for f in m:
@@ -136,9 +161,11 @@ for m in f:
 map = folium.Map(location=[4.570868,-74.297333],zoom_start=6)
 for index, location_info in vuelos.iterrows():
     folium.Marker([location_info["lat_st"], location_info["lng_st"]], popup=location_info["Ciudad_Origen"]).add_to(map)
-#Por ahora sin lineas
-#for index, location_info in vuelos.iterrows():
-#    folium.vector_layers.PolyLine([(location_info["lat_st"], 
-#    location_info["lng_st"]),(location_info["lat_end"], location_info["lng_end"])],color="blue",weight=3, 
-#    popup=str(location_info["distance_km"])+"km").add_to(map)
+
+"""for index, location_info in vuelos.iterrows():
+    folium.vector_layers.PolyLine([(location_info["lat_st"], 
+    location_info["lng_st"]),(location_info["lat_end"], location_info["lng_end"])],color="blue",weight=3, 
+    popup=str(location_info["distance_km"])+"km").add_to(map)"""
 map.save("map.html")
+
+webbrowser.open("index.html", 1)
