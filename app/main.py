@@ -7,10 +7,15 @@ import os
 """Creaciòn del grafo"""
 class Node:
     def __init__(self, data: str) -> None:
+        # Nombre de la ciudad
         self.data = data
+        # Lista de nodos a los cuales tiene conexión
         self.connections: list[Node] = []
+        # Lista de pesos (Cada index corresponde al del nodo en connections)
         self.weights: list[float] = []
+        # Posición que ocupa en la matriz de distancia
         self.pos = 0
+        # Latitud y longitud de la ciudad
         self.lat: float = 0
         self.long: float = 0
 
@@ -18,12 +23,14 @@ class Node:
         return self.data
 class Grafo:
     def __init__(self) -> None:
+        # Cada elemento de la lista de vertices corresponde en su index a la de ciudades
         self.listavertices: list[Node] = []
         self.listaciudades: list[str] = []
         self.MatrizDis: list[list[int]]
         self.MatrizRec: list[list[Node]]
 
     def MatrizDistancia(self) -> list[list[int]]:
+        """Crea la matriz de distancia inicial (Si existe arista el peso, si no infinito)"""
         Matriz = []
         length = len(self.listavertices)
         for i in range(length):
@@ -39,6 +46,7 @@ class Grafo:
         return Matriz
 
     def MatrizRecorrido(self):
+        """Crea la matriz de recorrido inicial"""
         Matriz = []
         length = len(self.listavertices)
         for i in range(length):
@@ -51,16 +59,9 @@ class Grafo:
                 Matriz[i][vertice.pos] = vertice
         
         return Matriz
-
-    def menorCosto(self, listaPesos: list[int]):
-        min = float("inf")
-        for peso in listaPesos:
-            if peso < min:
-                min = peso
-                minindex = listaPesos.index(peso)
-        return minindex
     
     def FloydWarshall(self):
+        """Ejecuta el algoritmo de Floyd-Warshall, modifica la matriz de distancia y recorrido"""
         n = len(self.listavertices)
         Matriz = self.MatrizDistancia()
         MatrizR = self.MatrizRecorrido()
@@ -75,24 +76,8 @@ class Grafo:
         self.MatrizDis = Matriz
         self.MatrizRec = MatrizR
 
-    def PrintCamino(self, start: str, finish: str):
-        node1 = self.listavertices[self.listaciudades.index(start)]
-        node2 = self.listavertices[self.listaciudades.index(finish)]
-        print(node1, end=" -> ")
-        if node2 in node1.connections and self.MatrizRec[node1.pos][node2.pos] == node2:
-            print(node2)
-        else:
-            aux = node2
-            path = []
-            while aux not in node1.connections:
-                aux = self.MatrizRec[node1.pos][aux.pos]
-                path.append(aux)
-            path.reverse()
-            for node in path:
-                print(node, end=" -> ")
-            print(node2)
-
     def ListaRecorrido(self, start: str, finish: str):
+        """Devuelve una lista ordenada con el recorrido más corto de un nodo a otro"""
         node1 = self.listavertices[self.listaciudades.index(start)]
         node2 = self.listavertices[self.listaciudades.index(finish)]
         lista = [node1]
@@ -118,6 +103,9 @@ vuelos = pd.read_csv('data/totalvuelos.csv')
 c = 0
 for index, city in vuelos.iterrows():
     ciudad = city["Ciudad_Origen"]
+    """Para cada ciudad que no este incluida en el grafo, definimos
+       sus atributos y la incluimos a este
+    """
     if ciudad not in grafo.listaciudades:
         grafo.listaciudades.append(ciudad)
         nodo = Node(ciudad)
@@ -141,35 +129,15 @@ for index, info in vuelos.iterrows():
 
 grafo.FloydWarshall()
 
-print("Camino minimo")
-#grafo.PrintCamino("GUAPI", "ARMENIA")
-print()
-
-#for vertice in grafo.listavertices:
-    #print(vertice, end=" ")
-    #for conexion in vertice.connections:
-        #print(conexion, end=" ")
-    #print()
-
-
-"""m = grafo.MatrizDistancia()
-for f in m:
-    print(f, end="\n")"""
-"""
-f = grafo.FloydWarshall()[0]
-for m in f:
-    print(m)
-"""
 map = folium.Map(location=[4.570868,-74.297333],zoom_start=6)
 for index, location_info in vuelos.iterrows():
-    folium.Marker([location_info["lat_st"], location_info["lng_st"]], popup=location_info["Ciudad_Origen"]).add_to(map)
+    folium.Marker([location_info["lat_st"], location_info["lng_st"]], popup=location_info["Ciudad_Origen"], icon=folium.Icon(color="pink", icon="plane")).add_to(map)
 
-"""for index, location_info in vuelos.iterrows():
-    folium.vector_layers.PolyLine([(location_info["lat_st"], 
-    location_info["lng_st"]),(location_info["lat_end"], location_info["lng_end"])],color="blue",weight=3, 
-    popup=str(location_info["distance_km"])+"km").add_to(map)"""
+
 #Acá se supone que debe ir lo de reescribir el mapa pero en la carpeta static
-map.save("map.html")
+directory = r"app/static"
+Save = os.path.join(directory, "map.html")
+map.save(Save)
 #Servidor en Flask
 app = Flask(__name__)
 @app.route('/')
