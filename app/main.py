@@ -1,7 +1,9 @@
 import folium
 import pandas as pd
 import webbrowser
-
+import Redraw as R
+from flask import Flask, render_template, request
+import os
 """Creaciòn del grafo"""
 class Node:
     def __init__(self, data: str) -> None:
@@ -166,6 +168,25 @@ for index, location_info in vuelos.iterrows():
     folium.vector_layers.PolyLine([(location_info["lat_st"], 
     location_info["lng_st"]),(location_info["lat_end"], location_info["lng_end"])],color="blue",weight=3, 
     popup=str(location_info["distance_km"])+"km").add_to(map)"""
+#Acá se supone que debe ir lo de reescribir el mapa pero en la carpeta static
 map.save("map.html")
-
-webbrowser.open("index.html", 1)
+#Servidor en Flask
+app = Flask(__name__)
+@app.route('/')
+#Primera ejecución
+def index():
+    return render_template('index.html')
+@app.route('/datos', methods=["GET", "POST"])
+#Recolectar los datos
+def ciudades():
+    ciudad1 = request.form['city-1']
+    ciudad2 = request.form['city-2']
+    #Redibujar el mapa
+    R.Update_Map(ciudad1, ciudad2)
+    print(ciudad1)
+    print(ciudad2)
+    #Refrescar la pagina
+    return render_template('index.html')
+if __name__ == '__main__':
+    webbrowser.open("http://127.0.0.1:5000", 1)
+    app.run(debug=True)

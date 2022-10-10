@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Web Laboratorio #2</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        dialog {
+            color: green;
+            font-size: 30px;
+            font-weight: bold;
+            font-style: italic;
+        }
+        body {
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .main-container{
+            width: 80%;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .main-container .titlebar {
+            width: 100%;
+        }
+
+        .main-container h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .main-container iframe {
+            width: 70%;
+            border-radius: 10px;
+        }
+
+        .main-container .panel {
+            padding: 20px;
+            width: 30%;
+        }
+
+        .panel #city-1,
+        .panel #city-2 {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <script>
+        export var city_1 = document.getElementById("city-1");
+        export var city_2 = document.getElementById("city-2");
+        
+    </script>
+</head>
+
+
+<body style="background-color:#F0C1EB;">
+</body>
+
+<body>
+    <div class="main-container">
+        <div class="titlebar">
+            <h1>Mapa vuelos nacionales</h1>
+        </div>
+        <iframe src="{{url_for('static', filename = 'map.html')}}" title="description" width="500" height="500"></iframe>
+        <aside class="panel">
+            <form action="/datos" method="post">
+                <div class="lists">
+                    <br>Hola bienvenido. <br>
+                    <br> <nr></nr>
+                    <br>Escoja el lugar de partida que desee <br>
+                    <select name="city-1" id="city-1" required>
+                        <option value="">-</option>
+                        <option value="BOGOTA">BOGOTA</option>
+                        <option value="CARTAGENA">CARTAGENA</option>
+                        <option value="BARRANQUILLA">BARRANQUILLA</option>
+                        <option value="SAN ANDRES">SAN ANDRES</option>
+                        <option value="ARMENIA">ARMENIA</option>
+                        <option value="BUCARAMANGA">BUCARAMANGA</option>
+                        <option value="CALI">CALI</option>
+                        <option value="CUCUTA">CUCUTA</option>
+                        <option value="YOPAL">YOPAL</option>
+                        <option value="LETICIA">LETICIA</option>
+                        <option value="RIONEGRO">RIONEGRO</option>
+                        <option value="MONTERIA">MONTERIA</option>
+                        <option value="NEIVA">NEIVA</option>
+                        <option value="PEREIRA">PEREIRA</option>
+                        <option value="PASTO">PASTO</option>
+                        <option value="SANTA MARTA">SANTA MARTA</option>
+                        <option value="VALLEDUPAR">VALLEDUPAR</option>
+                        <option value="RIOHACHA">RIOHACHA</option>
+                        <option value="COROZAL">COROZAL</option>
+                        <option value="BARRANCABERMEJA">BARRANCABERMEJA</option>
+                        <option value="FLORENCIA">FLORENCIA</option>
+                        <option value="IBAGUE">IBAGUE</option>
+                        <option value="POPAYAN">POPAYAN</option>
+                        <option value="VILLAVICENCIO">VILLAVICENCIO</option>
+                        <option value="CAREPA">CAREPA</option>
+                        <option value="ARAUCA">ARAUCA</option>
+                        <option value="MEDELLIN">MEDELLIN</option>
+                        <option value="GUAPI">GUAPI</option>
+                        <option value="MANIZALES">MANIZALES</option>
+                        <option value="PUERTO ASIS">PUERTO ASIS</option>
+                        <option value="PUERTO CARRENO">PUERTO CARRENO</option>
+                        <option value="TUMACO">TUMACO</option>
+                        <option value="QUIBDO">QUIBDO</option>
+                        <option value="INIRIDA">INIRIDA</option>
+                        <option value="MITU">MITU</option>
+                        <option value="PITALITO">PITALITO</option>
+                    </select>
+                    <br> Escoja el lugar de llegada que desee <br>
+                    <select name="city-2" id="city-2" required>
+                        <option value="">-</option>
+                        <option value="TODOS">TODOS</option>
+                        <option value="BOGOTA">BOGOTA</option>
+                        <option value="CARTAGENA">CARTAGENA</option>
+                        <option value="BARRANQUILLA">BARRANQUILLA</option>
+                        <option value="SAN ANDRES">SAN ANDRES</option>
+                        <option value="ARMENIA">ARMENIA</option>
+                        <option value="BUCARAMANGA">BUCARAMANGA</option>
+                        <option value="CALI">CALI</option>
+                        <option value="CUCUTA">CUCUTA</option>
+                        <option value="YOPAL">YOPAL</option>
+                        <option value="LETICIA">LETICIA</option>
+                        <option value="RIONEGRO">RIONEGRO</option>
+                        <option value="MONTERIA">MONTERIA</option>
+                        <option value="NEIVA">NEIVA</option>
+                        <option value="PEREIRA">PEREIRA</option>
+                        <option value="PASTO">PASTO</option> 
+                        <option value="SANTA MARTA">SANTA MARTA</option>
+                        <option value="VALLEDUPAR">VALLEDUPAR</option>
+                        <option value="RIOHACHA">RIOHACHA</option>
+                        <option value="COROZAL">COROZAL</option>
+                        <option value="BARRANCABERMEJA">BARRANCABERMEJA</option>
+                        <option value="FLORENCIA">FLORENCIA</option>
+                        <option value="IBAGUE">IBAGUE</option>
+                        <option value="POPAYAN">POPAYAN</option>
+                        <option value="VILLAVICENCIO">VILLAVICENCIO</option>
+                        <option value="CAREPA">CAREPA</option>
+                        <option value="ARAUCA">ARAUCA</option>
+                        <option value="MEDELLIN">MEDELLIN</option>
+                        <option value="GUAPI">GUAPI</option>
+                        <option value="MANIZALES">MANIZALES</option>
+                        <option value="PUERTO ASIS">PUERTO ASIS</option>
+                        <option value="PUERTO CARRENO">PUERTO CARRENO</option>
+                        <option value="TUMACO">TUMACO</option>
+                        <option value="QUIBDO">QUIBDO</option>
+                        <option value="INIRIDA">INIRIDA</option>
+                        <option value="MITU">MITU</option>
+                        <option value="PITALITO">PITALITO</option>
+                    </select>
+                </div>
+                
+                <button type="submit", id="script", name="scriptbutton", value="Run script", onclick="exec('python Redraw.py');">Continuar</button>
+                
+            </form>
+            
+        </aside>
+    </div>
+    
+</body>
+</html>
