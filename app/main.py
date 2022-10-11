@@ -143,6 +143,10 @@ app = Flask(__name__)
 @app.route('/')
 #Primera ejecución
 def index():
+    return render_template('pp.html')
+#Para pasar a la página de los mapas
+@app.route('/continuar', methods=["GET", "POST"])
+def continuar():
     return render_template('index.html')
 @app.route('/datos', methods=["GET", "POST"])
 #Recolectar los datos

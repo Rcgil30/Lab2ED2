@@ -1,12 +1,13 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!--Página HTML donde se encuentra lo relacionado al mapa-->
 <html lang="es">
 <head>
     
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" href="{{url_for('static', filename='estilo2.css')}}">
     <title>Página Web Laboratorio #2</title>
-
+    <!--Clases -->
     <style>
         *{
             margin: 0;
@@ -33,11 +34,13 @@
 
         .main-container .titlebar {
             width: 100%;
+            
         }
 
         .main-container h1 {
             text-align: center;
             margin-bottom: 10px;
+            
         }
 
         .main-container iframe {
@@ -48,6 +51,7 @@
         .main-container .panel {
             padding: 20px;
             width: 30%;
+            left: 40%;
         }
 
         .panel #city-1,
@@ -56,6 +60,7 @@
             height: 30px;
             line-height: 30px;
             margin-bottom: 10px;
+            left: 40%;
         }
     </style>
 
@@ -67,21 +72,22 @@
 </head>
 
 
-<body style="background-color:#F0C1EB;">
-</body>
+
 
 <body>
     <div class="main-container">
-        <div class="titlebar">
-            <h1>Mapa vuelos nacionales</h1>
+        <div class="titlebar"><!--titulo-->
+            <img src="/static/titulo.png" />
         </div>
-        <iframe src="{{url_for('static', filename = 'map.html')}}" title="description" width="500" height="500"></iframe>
+        <!--Mapa-->
+        <iframe src="{{url_for('static', filename = 'map.html')}}" title="description" width="500" height="500" l></iframe>
         <aside class="panel">
+            <!--Acción que realiza-->
             <form action="/datos" method="post">
                 <div class="lists">
-                    <br>Hola bienvenido. <br>
-                    <br> <nr></nr>
-                    <br>Escoja el lugar de partida que desee <br>
+                    <br> <nr></nr>    
+                    <!--Ciudades de partida(lista)-->
+                    <img src="/static/partida.png" style= "width: 400px ;" />                
                     <select name="city-1" id="city-1" required>
                         <option value="">-</option>
                         <option value="BOGOTA">BOGOTA</option>
@@ -121,7 +127,8 @@
                         <option value="MITU">MITU</option>
                         <option value="PITALITO">PITALITO</option>
                     </select>
-                    <br> Escoja el lugar de llegada que desee <br>
+                    <img src="/static/llegada.png" style= "width: 400px ;" /> 
+                    <!--Ciudades de llegada-->
                     <select name="city-2" id="city-2" required>
                         <option value="">-</option>
                         <option value="TODOS">TODOS</option>
@@ -163,7 +170,7 @@
                         <option value="PITALITO">PITALITO</option>
                     </select>
                 </div>
-                
+                <!--Botón para continuar-->
                 <button type="submit", id="script", name="scriptbutton", value="Run script", onclick="exec('python Redraw.py');">Continuar</button>
                 
             </form>
