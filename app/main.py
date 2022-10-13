@@ -117,24 +117,27 @@ for index, city in vuelos.iterrows():
 
 
 for index, info in vuelos.iterrows():
+    """Iteramos nuevamente a lo largo del df para definir las adyacencias
+       entre los vértices"""
     indexor = grafo.listaciudades.index(info["Ciudad_Origen"])
     indexdes = grafo.listaciudades.index(info["Ciudad_Destino"])
     
     ciudad_or = grafo.listavertices[indexor]
     ciudad_des = grafo.listavertices[indexdes]
-    #print(ciudad_or)
-    #print(ciudad_des)
+
     ciudad_or.connections.append(ciudad_des)
     ciudad_or.weights.append(round(info["distance_km"]))
 
+# Una vez tenemos todos los datos necesarios en el grafo, llamamos
+# el algorítmo de Floyd Warshall para tener la información del camino mínimo
+# entre los vértices
 grafo.FloydWarshall()
 
 map = folium.Map(location=[4.570868,-74.297333],zoom_start=6)
 for index, location_info in vuelos.iterrows():
     folium.Marker([location_info["lat_st"], location_info["lng_st"]], popup=location_info["Ciudad_Origen"], icon=folium.Icon(color="pink", icon="plane")).add_to(map)
 
-
-#Acá se supone que debe ir lo de reescribir el mapa pero en la carpeta static
+# Guardamos el mapa en la carpeta requerida
 directory = r"app/static"
 Save = os.path.join(directory, "map.html")
 map.save(Save)
@@ -155,8 +158,6 @@ def ciudades():
     ciudad2 = request.form['city-2']
     #Redibujar el mapa
     R.Update_Map(ciudad1, ciudad2)
-    print(ciudad1)
-    print(ciudad2)
     #Refrescar la pagina
     return render_template('index.html')
 if __name__ == '__main__':
