@@ -21,8 +21,10 @@
             font-style: italic;
         }
         body {
-            text-align: center;
-            font-family: 'Times New Roman', Times, serif;
+            text-align: left;
+            font-family: 'candara';
+            color: rgb(230, 100, 100);
+            font-size: 120%;
         }
 
         .main-container{
@@ -62,6 +64,12 @@
             margin-bottom: 10px;
             left: 40%;
         }
+        .botton {
+            text-align: left;
+            font-family: 'candara';
+            color: rgb(207, 47, 100);
+            font-size: 120%;
+        }
     </style>
 
     <script>
@@ -87,7 +95,7 @@
                 <div class="lists">
                     <br> <nr></nr>    
                     <!--Ciudades de partida(lista)-->
-                    <img src="/static/partida.png" style= "width: 400px ;" />                
+                    <img src="/static/partida.png" style= "width: 300px ;" />                
                     <select name="city-1" id="city-1" required>
                         <option value="">-</option>
                         <option value="BOGOTA">BOGOTA</option>
@@ -127,7 +135,7 @@
                         <option value="MITU">MITU</option>
                         <option value="PITALITO">PITALITO</option>
                     </select>
-                    <img src="/static/llegada.png" style= "width: 400px ;" /> 
+                    <img src="/static/llegada.png" style= "width: 300px ;" /> 
                     <!--Ciudades de llegada-->
                     <select name="city-2" id="city-2" required>
                         <option value="">-</option>
@@ -171,8 +179,13 @@
                     </select>
                 </div>
                 <!--Botón para continuar-->
-                <button type="submit", id="script", name="scriptbutton", value="Run script", onclick="exec('python Redraw.py');">Continuar</button>
-                
+                <button type="submit", id="script", class="botton", name="scriptbutton", value="Run script", onclick="exec('python Redraw.py');">Continuar</button>
+                <b>
+                    <br><br>-Para ver los nombres de los lugares,
+                    de click en cada ítem. <br> 
+                    -Si desea ver el peso de las adyacencias, 
+                    pase el mouse por cada línea.
+                </b> 
             </form>
             
         </aside>
