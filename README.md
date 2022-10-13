@@ -7,7 +7,7 @@
 - Roberto Gil
 
 ## Para ejecutar el programa (VS code)
-Para ejecutar el programa es necesario tener instalado flask, para esto se debe seguir estos pasos:
+Para ejecutar el programa es necesario tener instalado flask, folium, pandas para esto se debe seguir estos pasos:
 
 •	Abrir la terminal
 
